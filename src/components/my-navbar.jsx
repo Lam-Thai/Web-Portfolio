@@ -39,7 +39,7 @@ export default function MyNavbar() {
                 asChild
                 className={navigationMenuTriggerStyle()}
               >
-                <Link href="#projects">Projects</Link>
+                <Link href="/projects">Projects</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>

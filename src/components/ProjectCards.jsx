@@ -8,25 +8,37 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 
-export default function ProjectPreviewCard({ count = 3 }) {
+export default function ProjectPreviewCard({ count = 5 }) {
   const projects = [
+    {
+      title: "Tandem",
+      desc: "an AI-powered app that helps trade parents manage unpredictable work schedules by finding reliable childcare and sharing nannies with others nearby. This makes childcare flexible, affordable, and easy to organize.",
+      img: "https://placehold.co/300x200.png",
+      link: "https://tandem-git-dev-matheus-demeis-projects-4bff4ed5.vercel.app/calendar",
+    },
     {
       title: "Expenses Tracker",
       desc: "An app to track personal expenses",
-      img: "https://placehold.co/300x200.png",
-      link: "https://github.com/Lam-Thai/Expenses-App",
+      img: "/images/dollar.png",
+      link: "https://expenses-app-3ebn.onrender.com/",
     },
     {
       title: "Passport.js Auth",
       desc: "Authentication system using Passport.js",
-      img: "https://placehold.co/300x200.png",
+      img: "/images/passport.png",
       link: "https://github.com/Lam-Thai/passport-lab",
     },
     {
       title: "Image Converter",
       desc: "A tool to convert images between different formats",
-      img: "https://placehold.co/300x200.png",
+      img: "/images/image.png",
       link: "https://github.com/Lam-Thai/image-lab",
+    },
+    {
+      title: "Temperature Converter",
+      desc: "A tool to convert temperatures between different units",
+      img: "/images/temperature.png",
+      link: "https://github.com/Lam-Thai/temperature-convert",
     },
   ];
 
@@ -39,7 +51,13 @@ export default function ProjectPreviewCard({ count = 3 }) {
         {displayedProjects.map((project, index) => (
           <Card key={index} className="flex flex-col h-full">
             <CardHeader>
-              <Skeleton className="w-full h-48" />
+              <Image
+                src={project.img}
+                alt={project.title}
+                width={300}
+                height={200}
+                className="w-full h-48 object-cover rounded-md"
+              />
             </CardHeader>
             <CardContent className="flex-1">
               <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
