@@ -11,29 +11,29 @@ import Image from "next/image";
 export default function ProjectPreviewCard({ count = 3 }) {
   const projects = [
     {
-      title: "E-Commerce Platform",
-      desc: "A full-stack online store with payment integration",
+      title: "Expenses Tracker",
+      desc: "An app to track personal expenses",
       img: "https://placehold.co/300x200.png",
-      link: "#",
+      link: "https://github.com/Lam-Thai/Expenses-App",
     },
     {
-      title: "Weather Dashboard",
-      desc: "Real-time weather data visualization app",
+      title: "Passport.js Auth",
+      desc: "Authentication system using Passport.js",
       img: "https://placehold.co/300x200.png",
-      link: "#",
+      link: "https://github.com/Lam-Thai/passport-lab",
     },
     {
-      title: "Task Manager",
-      desc: "Collaborative project management tool",
+      title: "Image Converter",
+      desc: "A tool to convert images between different formats",
       img: "https://placehold.co/300x200.png",
-      link: "#",
+      link: "https://github.com/Lam-Thai/image-lab",
     },
   ];
 
   const displayedProjects = projects.slice(0, count);
 
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div id="projects" className="container mx-auto px-4 py-12">
       <h2 className="text-3xl font-bold mb-8">Featured Projects</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
         {displayedProjects.map((project, index) => (

@@ -16,12 +16,18 @@ export default function MyHero() {
         </div>
         <div className="flex-1">
           <CardHeader>
-            <h1 className="text-4xl font-bold">Your Name</h1>
+            <h1 className="text-4xl font-bold">Tuoc Lam Thai</h1>
           </CardHeader>
           <CardContent>
             <p className="text-lg text-gray-600">
-              Full-stack developer passionate about creating beautiful web
-              experiences. Welcome to my portfolio!
+              I specialize in building modern, scalable web applications using
+              tools like React, Next.js, and Node.js, with strong skills in both
+              frontend and backend development. My background in graphic design
+              helps me create clean, user-friendly interfaces with a strong
+              visual impact. Currently studying Full-Stack Web Development at
+              BCIT, I’m passionate about solving problems through code and
+              design, from building authentication systems to crafting
+              interactive digital experiences.
             </p>
           </CardContent>
         </div>

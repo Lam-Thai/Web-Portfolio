@@ -24,7 +24,7 @@ export default function MyNavbar() {
           </Link>
         </div>
 
-        <NavigationMenu>
+        <NavigationMenu viewport={false}>
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuLink
@@ -39,7 +39,7 @@ export default function MyNavbar() {
                 asChild
                 className={navigationMenuTriggerStyle()}
               >
-                <Link href="/projects">Projects</Link>
+                <Link href="#projects">Projects</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
@@ -48,34 +48,35 @@ export default function MyNavbar() {
                 <ul className="grid w-[200px] gap-1 p-2">
                   <li>
                     <NavigationMenuLink asChild>
-                      <Link
-                        href="/resume.pdf"
-                        target="_blank"
+                      <a
+                        href="/Lam_s_Resume___Web_Dev.pdf"
+                        download="Tuoc_Lam_Thai_Resume.pdf"
                         className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                       >
                         <div className="text-sm font-medium leading-none">
-                          PDF
+                          Download PDF
                         </div>
                         <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                          Download PDF version
+                          Download resume as PDF
                         </p>
-                      </Link>
+                      </a>
                     </NavigationMenuLink>
                   </li>
                   <li>
                     <NavigationMenuLink asChild>
-                      <Link
-                        href="/resume.tex"
+                      <a
+                        href="/Lam_s_Resume___Web_Dev.pdf"
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                       >
                         <div className="text-sm font-medium leading-none">
-                          LaTeX
+                          View PDF
                         </div>
                         <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                          View LaTeX source
+                          Open in new tab
                         </p>
-                      </Link>
+                      </a>
                     </NavigationMenuLink>
                   </li>
                 </ul>
