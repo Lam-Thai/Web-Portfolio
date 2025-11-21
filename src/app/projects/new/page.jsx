@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import {
   Form,
   FormControl,
@@ -50,6 +51,8 @@ export default function NewProjectPage() {
 
   async function onSubmit(values) {
     setIsSubmitting(true);
+    const loadingToast = toast.loading("Creating project...");
+
     try {
       const formData = new FormData();
       formData.append("title", values.title);
@@ -70,11 +73,18 @@ export default function NewProjectPage() {
       const data = await response.json();
       console.log("Project created:", data);
 
-      alert("Project created successfully!");
+      toast.success("Project created successfully!", {
+        id: loadingToast,
+        description: "Your project has been added to the portfolio.",
+      });
+
       router.push("/projects");
     } catch (error) {
       console.error("Error creating project:", error);
-      alert("Failed to create project. Please try again.");
+      toast.error("Failed to create project", {
+        id: loadingToast,
+        description: "Please try again later.",
+      });
     } finally {
       setIsSubmitting(false);
     }

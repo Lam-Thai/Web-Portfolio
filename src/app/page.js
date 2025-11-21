@@ -2,6 +2,7 @@
 import React from "react";
 import MyHero from "@/components/MyHeroSection";
 import ProjectPreviewCard from "@/components/ProjectCards";
+import GitHubCalendar from "@/components/github-calendar";
 
 export default function Home() {
   return (
@@ -9,6 +10,9 @@ export default function Home() {
       <main className="flex-1">
         <MyHero />
         <ProjectPreviewCard count={3} />
+        <div className="container mx-auto px-4 py-12">
+          <GitHubCalendar username="Lam-Thai" />
+        </div>
       </main>
     </div>
   );
