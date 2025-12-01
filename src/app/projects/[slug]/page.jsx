@@ -1,3 +1,4 @@
+import { getSession } from "@auth0/nextjs-auth0";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -8,18 +9,14 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { createSlug } from "@/lib/utils";
+import { getProjectById } from "@/lib/db";
 import { notFound } from "next/navigation";
 
 export default async function ProjectDetailPage({ params }) {
   const { slug } = await params;
+  const session = await getSession();
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/projects`, {
-    cache: "no-store",
-  });
-  const { projects } = await res.json();
-
-  const project = projects.find((p) => createSlug(p.title) === slug);
+  const project = await getProjectById(slug);
 
   if (!project) {
     notFound();
@@ -27,9 +24,16 @@ export default async function ProjectDetailPage({ params }) {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <Button asChild variant="outline" className="mb-6">
-        <Link href="/projects">← Back to Projects</Link>
-      </Button>
+      <div className="flex gap-2 mb-6">
+        <Button asChild variant="outline">
+          <Link href="/projects">← Back to Projects</Link>
+        </Button>
+        {session?.user && (
+          <Button asChild>
+            <Link href={`/projects/${slug}/edit`}>Edit Project</Link>
+          </Button>
+        )}
+      </div>
 
       <Card className="max-w-4xl mx-auto">
         <CardHeader>

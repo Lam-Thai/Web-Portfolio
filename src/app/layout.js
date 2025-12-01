@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import MyNavbar from "@/components/my-navbar";
 import { Toaster } from "@/components/ui/sonner";
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,11 +14,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <MyNavbar />
-        {children}
-        <Toaster position="top-right" richColors />
-      </body>
+      <UserProvider>
+        <body className={inter.className}>
+          <MyNavbar />
+          {children}
+          <Toaster position="top-right" richColors />
+        </body>
+      </UserProvider>
     </html>
   );
 }
