@@ -4,6 +4,8 @@ import MyHero from "@/components/MyHeroSection";
 import ProjectPreviewCard from "@/components/ProjectCards";
 import GitHubCalendar from "@/components/github-calendar";
 
+export const revalidate = 0; // Make page dynamic
+
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">

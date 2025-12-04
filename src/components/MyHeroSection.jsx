@@ -1,33 +1,34 @@
 import Image from "next/image";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { getHero } from "@/lib/db";
 
-export default function MyHero() {
+export default async function MyHero() {
+  const hero = await getHero();
+
   return (
     <div className="container mx-auto px-4 py-12">
       <Card className="flex flex-col md:flex-row items-center gap-6 p-6">
         <div className="flex-shrink-0">
-          <Image
-            src="/profile.jpg"
-            alt="Profile picture"
-            width={200}
-            height={200}
-            className="rounded-full"
-          />
+          <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-primary">
+            <Image
+              src={hero.avatar}
+              alt={hero.fullName}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
         </div>
         <div className="flex-1">
           <CardHeader>
-            <h1 className="text-4xl font-bold">Tuoc Lam Thai</h1>
+            <h1 className="text-4xl font-bold">{hero.fullName}</h1>
+            <p className="text-xl text-muted-foreground mt-2">
+              {hero.shortDescription}
+            </p>
           </CardHeader>
           <CardContent>
-            <p className="text-lg text-gray-600">
-              I specialize in building modern, scalable web applications using
-              tools like React, Next.js, and Node.js, with strong skills in both
-              frontend and backend development. My background in graphic design
-              helps me create clean, user-friendly interfaces with a strong
-              visual impact. Currently studying Full-Stack Web Development at
-              BCIT, I’m passionate about solving problems through code and
-              design, from building authentication systems to crafting
-              interactive digital experiences.
+            <p className="text-lg text-gray-600 leading-relaxed">
+              {hero.longDescription}
             </p>
           </CardContent>
         </div>

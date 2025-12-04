@@ -3,6 +3,109 @@ import { neon } from "@neondatabase/serverless";
 
 const sql = neon(process.env.NEON_DB_URL);
 
+const HERO_PLACEHOLDER_AVATAR = "data:image/gif;base64,R0lGODlhAQABAAAAACw=";
+const defaultHeroContent = {
+  avatar: HERO_PLACEHOLDER_AVATAR,
+  fullName: "Your Name",
+  shortDescription: "Full-Stack Developer | React & Next.js Specialist",
+  longDescription:
+    "I specialize in building modern, scalable web applications using tools like React, Next.js, and Node.js.",
+};
+
+function mapHeroRow(row) {
+  return {
+    id: row.id,
+    avatar: row.avatar || HERO_PLACEHOLDER_AVATAR,
+    fullName: row.full_name || defaultHeroContent.fullName,
+    shortDescription:
+      row.short_description || defaultHeroContent.shortDescription,
+    longDescription: row.long_description || defaultHeroContent.longDescription,
+    createdAt: row.createdAt,
+    updatedAt: row.updatedAt,
+  };
+}
+
+export async function ensureHeroTable() {
+  await sql`
+    CREATE TABLE IF NOT EXISTS hero (
+      id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+      avatar text NOT NULL DEFAULT '',
+      full_name text NOT NULL,
+      short_description text NOT NULL CHECK (char_length(short_description) <= 120),
+      long_description text NOT NULL,
+      created_at timestamptz NOT NULL DEFAULT now(),
+      updated_at timestamptz NOT NULL DEFAULT now()
+    )
+  `;
+
+  const [{ count }] = await sql`SELECT count(*)::int as count FROM hero`;
+  if (Number(count) === 0) {
+    await sql`
+      INSERT INTO hero (avatar, full_name, short_description, long_description)
+      VALUES (
+        ${defaultHeroContent.avatar},
+        ${defaultHeroContent.fullName},
+        ${defaultHeroContent.shortDescription},
+        ${defaultHeroContent.longDescription}
+      )
+    `;
+  }
+}
+
+export async function getHero() {
+  await ensureHeroTable();
+  const [row] = await sql`
+    SELECT id, avatar, full_name, short_description, long_description,
+           created_at as "createdAt", updated_at as "updatedAt"
+    FROM hero
+    ORDER BY created_at ASC
+    LIMIT 1
+  `;
+  return row ? mapHeroRow(row) : defaultHeroContent;
+}
+
+export async function upsertHero(updates = {}) {
+  await ensureHeroTable();
+  const current = await getHero();
+
+  const merged = {
+    avatar: updates.avatar ?? current.avatar ?? HERO_PLACEHOLDER_AVATAR,
+    fullName:
+      updates.fullName ?? current.fullName ?? defaultHeroContent.fullName,
+    shortDescription:
+      updates.shortDescription ??
+      current.shortDescription ??
+      defaultHeroContent.shortDescription,
+    longDescription:
+      updates.longDescription ??
+      current.longDescription ??
+      defaultHeroContent.longDescription,
+  };
+
+  if (current.id) {
+    const [row] = await sql`
+      UPDATE hero
+      SET avatar = ${merged.avatar},
+          full_name = ${merged.fullName},
+          short_description = ${merged.shortDescription},
+          long_description = ${merged.longDescription},
+          updated_at = now()
+      WHERE id = ${current.id}
+      RETURNING id, avatar, full_name, short_description, long_description,
+                created_at as "createdAt", updated_at as "updatedAt"
+    `;
+    return mapHeroRow(row);
+  } else {
+    const [row] = await sql`
+      INSERT INTO hero (avatar, full_name, short_description, long_description)
+      VALUES (${merged.avatar}, ${merged.fullName}, ${merged.shortDescription}, ${merged.longDescription})
+      RETURNING id, avatar, full_name, short_description, long_description,
+                created_at as "createdAt", updated_at as "updatedAt"
+    `;
+    return mapHeroRow(row);
+  }
+}
+
 function mapProject(row) {
   return {
     id: row.id,
