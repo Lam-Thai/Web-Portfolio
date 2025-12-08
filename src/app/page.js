@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import MyHero from "@/components/MyHeroSection";
 import ProjectPreviewCard from "@/components/ProjectCards";

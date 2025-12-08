@@ -8,11 +8,6 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import HeroEditorForm from "@/components/hero-editor-form";
 
-export const metadata = {
-  title: "Dashboard - Tuoc Lam Thai",
-  description: "Admin dashboard",
-};
-
 export default function DashboardPage() {
   const { user, error, isLoading } = useUser();
 

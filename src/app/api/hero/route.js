@@ -1,8 +1,10 @@
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getSession } from "@auth0/nextjs-auth0";
 import { getHero, upsertHero } from "@/lib/db";
-import { withApiAuthRequired } from "@auth0/nextjs-auth0";
 
 const heroSchema = z.object({
   avatar: z
@@ -28,9 +30,12 @@ export async function GET() {
   }
 }
 
-export const PUT = withApiAuthRequired(async (request) => {
+export async function PUT(request) {
   try {
-    const session = await getSession();
+    // Pass request and create a response to get session properly
+    const res = new NextResponse();
+    const session = await getSession(request, res);
+
     if (!session?.user) {
       return NextResponse.json(
         { message: "You must be logged in to edit the hero section" },
@@ -44,7 +49,6 @@ export const PUT = withApiAuthRequired(async (request) => {
 
     let avatarDataUrl = avatarFromForm || "";
 
-    // Convert file to data URL if provided
     if (avatarFile && typeof avatarFile.arrayBuffer === "function") {
       const arrayBuffer = await avatarFile.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
@@ -60,7 +64,6 @@ export const PUT = withApiAuthRequired(async (request) => {
       longDescription: formData.get("longDescription") || "",
     };
 
-    // Validate
     const validationResult = heroSchema.safeParse(payload);
     if (!validationResult.success) {
       return NextResponse.json(
@@ -84,4 +87,4 @@ export const PUT = withApiAuthRequired(async (request) => {
       { status: 500 }
     );
   }
-});
+}
